@@ -97,37 +97,35 @@
         }
 
         .savings-bar {
-            height: 20px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            transition: width 0.3s ease-in-out;
-            }
+        display: flex;
+        height: 20px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        }
+
+        .savings-fill {
+        background-color: #1f78b4;
+        }
+
+        .savings-remainder {
+        background-color: green;
+        }
       </style>
       
       
       <script>
         $(document).ready(function() {
           // Function to update savings bar
-          function updateSavingsBar(savingsInput, savingsBar, color, price = 0, canAfford = true) {
+          function updateSavingsBar(savingsInput, savingsFill, savingsRemainder, price = 0, canAfford = true) {
             var savings = parseInt($(savingsInput).val());
             var difference = savings - price;
-            var barColor = canAfford ? "green" : "red";
-      
-            $(savingsBar).css({
-              "background-color": color,
-              "width": `${(savings / 100) * 100}%`
-            });
-      
-            if (price === 0) {
-              $(savingsBar).css("background-color", color);
-              $(savingsBar).width("100%");
-            } else if (difference < 0) {
-              $(savingsBar).css("background-color", barColor);
-              $(savingsBar).width("100%");
-            } else {
-              $(savingsBar).width(`${(price / savings) * 100}%`);
+
+            var fillPercentage = (price / savings) * 100;
+            var remainderPercentage = 100 - fillPercentage;
+
+            $(savingsFill).width(`${fillPercentage}%`);
+            $(savingsRemainder).width(`${remainderPercentage}%`);
             }
-          }
       
           // Lynn's Section
           $("#lynnButton").click(function() {
@@ -141,7 +139,7 @@
       
             // Check affordability and update savings bar
             var canAfford = savings >= price;
-            updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "blue", price, canAfford);
+            updateSavingsBar("#lynnSavings", "#lynnSavingsFill", "#lynnSavingsRemainder", price, canAfford);
       
             // Display affordability result
             $("#lynnResult").text(canAfford ? "You can buy it!" : "You cannot afford it!");
@@ -162,7 +160,7 @@
       
             // Check affordability and update savings bar
             var canAfford = savings >= price;
-            updateSavingsBar("#eviSavings", "#eviSavingsBar", "blue", price, canAfford);
+            updateSavingsBar("#eviSavings", "#eviSavingsFill", "#eviSavingsRemainder", price, canAfford);
       
             // Display affordability result
             $("#eviResult").text(canAfford ? "You can buy it!" : "You cannot afford it!");
@@ -187,8 +185,8 @@
           $("#eviSavings").val(eviSavings);
       
           // Update savings bar on page load
-          updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#1f78b4");
-          updateSavingsBar("#eviSavings", "#eviSavingsBar", "#ba43b4");
+          updateSavingsBar("#lynnSavings", "#lynnSavingsFill", "#lynnSavingsRemainder", price, canAfford);
+          updateSavingsBar("#eviSavings", "#eviSavingsFill", "#eviSavingsRemainder", price, canAfford);
         });
       </script>
       
@@ -209,7 +207,10 @@
           <div class="row">
             <div class="col-md-6">
               <p>Savings: <input type="number" id="lynnSavings" value="0"></p>
-              <div class="savings-bar" id="lynnSavingsBar" style="background-color: blue;"></div>
+              <div class="savings-bar" id="lynnSavingsBar">
+                <div class="savings-fill" id="lynnSavingsFill"></div>
+                <div class="savings-remainder" id="lynnSavingsRemainder"></div>
+              </div>              
               <input type="number" id="lynnPrice" placeholder="Enter item price">
               <button id="lynnBuyBtn" class="btn btn-primary">Check Affordability</button>
               <div id="lynnResult"></div>
@@ -227,7 +228,10 @@
           <div class="row">
             <div class="col-md-6">
               <p>Savings: <input type="number" id="eviSavings" value="0"></p>
-              <div class="savings-bar" id="eviSavingsBar" style="background-color: blue;"></div>
+              <div class="savings-bar" id="eviSavingsBar">
+                <div class="savings-fill" id="eviSavingsFill"></div>
+                <div class="savings-remainder" id="eviSavingsRemainder"></div>
+              </div>  
               <input type="number" id="eviPrice" placeholder="Enter item price">
               <button id="eviBuyBtn" class="btn btn-primary">Check Affordability</button>
               <div id="eviResult"></div>
