@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lynn and Evi's Piggy Bank</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/progressbar.js@1.1.0/dist/progressbar.min.js"></script>
+
+    <style>
+        body {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+          background-color: #f2f2f2;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+        }
+      
+        header {
+          background-color: #333;
+          padding: 10px;
+          text-align: center;
+        }
+      
+        button {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+          font-size: 18px;
+          background-color: #f8f8f8;
+          border: none;
+          color: #333;
+          padding: 10px 20px;
+          margin: 0 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+      
+        button:hover {
+          background-color: #ddd;
+        }
+      
+        main {
+          padding: 20px;
+          text-align: center;
+        }
+      
+        h2 {
+          font-size: 28px;
+          color: #333;
+          margin-bottom: 20px;
+        }
+      
+        h4 {
+          font-size: 18px;
+          color: #333;
+        }
+      
+        .container {
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 5px;
+        }
+      
+        input[type="number"] {
+          font-family: 'Comic Sans MS', cursive, sans-serif;
+          font-size: 16px;
+          padding: 10px;
+          width: 100%;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-bottom: 10px;
+          box-sizing: border-box;
+        }
+      
+        .btn-primary {
+          background-color: #f76c6c;
+          color: #fff;
+          font-size: 18px;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+      
+        .btn-primary:hover {
+          background-color: #e45b5b;
+        }
+      
+        #lynnSection {
+          color: #1f78b4;
+        }
+      
+        #eviSection {
+          color: #ba43b4;
+        }
+
+      </style>
+      
+      
+      <script>
+        $(document).ready(function() {
+          // Initialize savings from local storage or set to 0 if not present
+          var lynnSavings = localStorage.getItem("lynnSavings");
+          var eviSavings = localStorage.getItem("eviSavings");
+      
+          if (!lynnSavings) {
+            lynnSavings = 0;
+          }
+      
+          if (!eviSavings) {
+            eviSavings = 0;
+          }
+      
+          $("#lynnSavings").val(lynnSavings);
+          $("#eviSavings").val(eviSavings);
+      
+          // Lynn's Section
+          $("#lynnButton").click(function() {
+            $("#eviSection").hide();
+            $("#lynnSection").show();
+          });
+      
+          $("#lynnBuyBtn").click(function() {
+            var savings = parseInt($("#lynnSavings").val());
+            var price = parseInt($("#lynnPrice").val());
+      
+            // Check affordability and update savings bar
+            var canAfford = savings >= price;
+            updateSavingsBar("#lynnSavings", "#lynnProgressBar", "blue", price, canAfford);
+      
+            // Display affordability result
+            $("#lynnResult").text(canAfford ? "You can buy it!" : "You cannot afford it!");
+          });
+      
+          // Evi's Section
+          $("#eviButton").click(function() {
+            $("#lynnSection").hide();
+            $("#eviSection").show();
+          });
+      
+          $("#eviBuyBtn").click(function() {
+            var savings = parseInt($("#eviSavings").val());
+            var price = parseInt($("#eviPrice").val());
+      
+            // Check affordability and update savings bar
+            var canAfford = savings >= price;
+            updateSavingsBar("#eviSavings", "#eviProgressBar", "blue", price, canAfford);
+      
+            // Display affordability result
+            $("#eviResult").text(canAfford ? "You can buy it!" : "You cannot afford it!");
+          });
+      
+          // Function to update savings bar
+          function updateSavingsBar(savingsInput, savingsBar, color, price = 0, canAfford = true) {
+            var savings = parseInt($(savingsInput).val());
+            var difference = savings - price;
+            var barColor = canAfford ? "green" : "red";
+      
+            var progressBar = new ProgressBar.Line(document.querySelector(savingsBar), {
+              strokeWidth: 4,
+              easing: 'easeInOut',
+              duration: 500,
+              color: color,
+              trailColor: '#f2f2f2',
+              trailWidth: 4,
+              svgStyle: { width: '100%', height: '100%' },
+              from: { color: color },
+              to: { color: barColor },
+              step: function(state, bar) {
+                bar.path.setAttribute('stroke', state.color);
+              }
+            });
+      
+            progressBar.animate(price / savings); // Animate the progress based on price and savings
+          }
+        });
+      </script>
+      
+      
+      
+      
+      
+      
+</head>
+<body>
+  <header>
+    <button id="lynnButton">Lynn</button>
+    <button id="eviButton">Evi</button>
+  </header>
+
+  <main>
+    <section id="lynnSection" style="display: none;">
+      <h2>Lynn</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p>Savings: <input type="number" id="lynnSavings" value="0"></p>
+            <div class="progress-bar-container" id="lynnProgressBar"></div>
+            <input type="number" id="lynnPrice" placeholder="Enter item price">
+            <button id="lynnBuyBtn" class="btn btn-primary">Check Affordability</button>
+            <div id="lynnResult"></div>
+          </div>
+          <div class="col-md-6">
+            <img src="https://i.graphicmama.com/uploads/2023/3/6414793b7befa-602a4f0ed6583-Flying%20Robot%20Cartoon%20Animated%20GIFs.gif" alt="Lynn's Robot GIF" style="width: 100%;">
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <section id="eviSection" style="display: none;">
+      <h2>Evi</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <p>Savings: <input type="number" id="eviSavings" value="0"></p>
+            <div class="progress-bar-container" id="eviProgressBar"></div>
+            <input type="number" id="eviPrice" placeholder="Enter item price">
+            <button id="eviBuyBtn" class="btn btn-primary">Check Affordability</button>
+            <div id="eviResult"></div>
+          </div>
+          <div class="col-md-6">
+            <img src="https://media2.giphy.com/media/S3oAaB2MAr7Th7Lczr/giphy.gif" alt="Evi's Unicorn GIF" style="width: 100%;">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  
+  
+</body>
+</html>
