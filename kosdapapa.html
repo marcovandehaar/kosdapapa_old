@@ -9,7 +9,7 @@
     <style>
         body {
           font-family: 'Comic Sans MS', cursive, sans-serif;
-          background-color: #f2f2f2;
+          background-color: #f2f2f2; /* Default light grey background color */
           margin: 0;
           padding: 0;
           display: flex;
@@ -18,27 +18,42 @@
           justify-content: center;
           height: 100vh;
         }
+
+        #lynnSection {
+          background-color: #FFE5CC; /* Light shade of orange for Lynn */
+        }
+
+        #eviSection {
+          background-color: #e6f5ff; /* Light shade of blue for Evi */
+        }
+
+        .container {
+          background-color: inherit; /* Use the background color of the parent section */
+          padding: 20px;
+          border-radius: 5px;
+        }
       
         header {
-          background-color: #333;
+          background-color: #f8f8f8; /* Update the background color of the header */
           padding: 10px;
           text-align: center;
         }
-      
+
         button {
           font-family: 'Comic Sans MS', cursive, sans-serif;
           font-size: 18px;
-          background-color: #f8f8f8;
+          background-color: #FFD700; /* Bright and light yellow color for buttons */
           border: none;
           color: #333;
           padding: 10px 20px;
           margin: 0 5px;
           cursor: pointer;
           transition: background-color 0.3s;
+          border-radius: 20px; /* Rounded border for buttons */
         }
-      
+
         button:hover {
-          background-color: #ddd;
+          background-color: #FFEC8B; /* Lighter shade of yellow on hover */
         }
       
         main {
@@ -57,11 +72,6 @@
           color: #333;
         }
       
-        .container {
-          background-color: #fff;
-          padding: 20px;
-          border-radius: 5px;
-        }
       
         input[type="number"] {
           font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -130,7 +140,7 @@
           var fillPercentage = (price / savings) * 100;
           var remainderPercentage = (savings - price) / savings * 100;
           
-          console.log("savings:" + savings);
+          console.log("Spaargeld:" + savings);
           console.log("price:" + price);
           console.log("percentage:" + fillPercentage);
           console.log($(savingsBar).find(".savings-fill"));
@@ -155,12 +165,12 @@
             var savings = parseInt($("#lynnSavings").val());
             var price = parseInt($("#lynnPrice").val());
       
-            // Check affordability and update savings bar
+            // Check of je dit kunt kopen and update savings bar
             var canAfford = savings >= price;
             updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#1f78b4", price, canAfford);
       
             // Display affordability result
-            $("#lynnResult").text(canAfford ? "You can buy it!" : "You cannot afford it!");
+            $("#lynnResult").text(canAfford ? "Je kunt het kopen!" : "Je kunt het niet kopen. je hebt niet genoeg geld :(");
       
             // Store updated savings value in local storage
             localStorage.setItem("lynnSavings", savings);
@@ -176,12 +186,12 @@
             var savings = parseInt($("#eviSavings").val());
             var price = parseInt($("#eviPrice").val());
       
-            // Check affordability and update savings bar
+            // Check of je dit kunt kopen and update savings bar
             var canAfford = savings >= price;
             updateSavingsBar("#eviSavings", "#eviSavingsBar", "#1f78b4", price, canAfford);
       
             // Display affordability result
-            $("#eviResult").text(canAfford ? "You can buy it!" : "You cannot afford it!");
+            $("#eviResult").text(canAfford ? "Je kunt het kopen!" : "Je kunt het niet kopen. je hebt niet genoeg geld :(");
       
             // Store updated savings value in local storage
             localStorage.setItem("eviSavings", savings);
@@ -225,14 +235,14 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6">
-              <p>Savings: <input type="number" id="lynnSavings" value="0"></p>
+              <p>Spaargeld: <input type="number" id="lynnSavings" value="0"></p>
               <div class="savings-bar" id="lynnSavingsBar" style="background-color: blue;">
                 <div class="savings-fill"></div>
                 <div class="savings-remainder"></div>
               </div>
                         
-              <input type="number" id="lynnPrice" placeholder="Enter item price">
-              <button id="lynnBuyBtn" class="btn btn-primary">Check Affordability</button>
+              <input type="number" id="lynnPrice" placeholder="Hoeveel kost het?">
+              <button id="lynnBuyBtn" class="btn btn-primary">Check of je dit kunt kopen</button>
               <div id="lynnResult"></div>
             </div>
             <div class="col-md-6">
@@ -247,14 +257,14 @@
         <div class="container">
           <div class="row">
             <div class="col-md-6">
-              <p>Savings: <input type="number" id="eviSavings" value="0"></p>
+              <p>Spaargeld: <input type="number" id="eviSavings" value="0"></p>
               <div class="savings-bar" id="eviSavingsBar" style="background-color: blue;">
                 <div class="savings-fill"></div>
                 <div class="savings-remainder"></div>
               </div>
               
-              <input type="number" id="eviPrice" placeholder="Enter item price">
-              <button id="eviBuyBtn" class="btn btn-primary">Check Affordability</button>
+              <input type="number" id="eviPrice" placeholder="Hoeveel kost het?">
+              <button id="eviBuyBtn" class="btn btn-primary">Check of je dit kunt kopen</button>
               <div id="eviResult"></div>
             </div>
             <div class="col-md-6">
