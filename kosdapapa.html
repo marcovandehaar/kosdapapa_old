@@ -128,6 +128,32 @@
         transition: width 0.3s ease-in-out;
       }
 
+      .header-text {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 20px;
+      color: #ba43b4; /* Vivid color for the header text */
+      margin-bottom: 10px;
+    }
+
+    .result-message {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 18px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .result-message.success {
+      background-color: #7FFF7F; /* Green background color for success message */
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a slight shadow effect */
+    }
+
+    .result-message.failure {
+      background-color: #FF7F7F; /* Red background color for failure message */
+      color: #fff;
+    }
+
       </style>
       
       
@@ -164,14 +190,18 @@
           $("#lynnBuyBtn").click(function() {
             var savings = parseInt($("#lynnSavings").val());
             var price = parseInt($("#lynnPrice").val());
-      
-            // Check of je dit kunt kopen and update savings bar
+
+            // Check affordability and update savings bar
             var canAfford = savings >= price;
-            updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#1f78b4", price, canAfford);
-      
+            updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#f76c6c", price, canAfford);
+
             // Display affordability result
-            $("#lynnResult").text(canAfford ? "Je kunt het kopen!" : "Je kunt het niet kopen. je hebt niet genoeg geld :(");
-      
+            if (canAfford) {
+              $("#lynnResult").removeClass("failure").addClass("success").text("Je kunt dit kopen! Dan heb je nog €" + (savings - price) + " over in je spaarpot.");
+            } else {
+              $("#lynnResult").removeClass("success").addClass("failure").text("Je kunt dit helaas niet kopen. Je hebt niet genoeg spaargeld.");
+            }
+
             // Store updated savings value in local storage
             localStorage.setItem("lynnSavings", savings);
           });
@@ -183,19 +213,23 @@
           });
       
           $("#eviBuyBtn").click(function() {
-            var savings = parseInt($("#eviSavings").val());
-            var price = parseInt($("#eviPrice").val());
-      
-            // Check of je dit kunt kopen and update savings bar
-            var canAfford = savings >= price;
-            updateSavingsBar("#eviSavings", "#eviSavingsBar", "#1f78b4", price, canAfford);
-      
-            // Display affordability result
-            $("#eviResult").text(canAfford ? "Je kunt het kopen!" : "Je kunt het niet kopen. je hebt niet genoeg geld :(");
-      
-            // Store updated savings value in local storage
-            localStorage.setItem("eviSavings", savings);
-          });
+          var savings = parseInt($("#eviSavings").val());
+          var price = parseInt($("#eviPrice").val());
+
+          // Check affordability and update savings bar
+          var canAfford = savings >= price;
+          updateSavingsBar("#eviSavings", "#eviSavingsBar", "#1f78b4", price, canAfford);
+
+          // Display affordability result
+          if (canAfford) {
+            $("#eviResult").removeClass("failure").addClass("success").text("Je kunt dit kopen! Dan heb je nog €" + (savings - price) + " over in je spaarpot.");
+          } else {
+            $("#eviResult").removeClass("success").addClass("failure").text("Je kunt dit helaas niet kopen. Je hebt niet genoeg spaargeld.");
+          }
+
+          // Store updated savings value in local storage
+          localStorage.setItem("eviSavings", savings);
+        });
       
           // Initialize savings from local storage or set to 0 if not present
           var lynnSavings = localStorage.getItem("lynnSavings");
@@ -211,6 +245,8 @@
       
           $("#lynnSavings").val(lynnSavings);
           $("#eviSavings").val(eviSavings);
+          $("#lynnPrice").val(""); // Set the price item text field to empty
+          $("#eviPrice").val(""); // Set the price item text field to empty
       
           // Update savings bar on page load
         updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#ff0000", 0, true); // Bright, vibrant red for Lynn
@@ -225,9 +261,11 @@
 </head>
 <body>
   <header>
+    <h4 class="header-text">Voor wie wil je de spaarpot zien?</h4>
     <button id="lynnButton">Lynn</button>
     <button id="eviButton">Evi</button>
   </header>
+  
 
   <main>
     <section id="lynnSection" style="display: none;">
@@ -243,7 +281,7 @@
                         
               <input type="number" id="lynnPrice" placeholder="Hoeveel kost het?">
               <button id="lynnBuyBtn" class="btn btn-primary">Check of je dit kunt kopen</button>
-              <div id="lynnResult"></div>
+              <div id="lynnResult" class="result-message"></div>
             </div>
             <div class="col-md-6">
               <img src="https://i.graphicmama.com/uploads/2023/3/6414793b7befa-602a4f0ed6583-Flying%20Robot%20Cartoon%20Animated%20GIFs.gif" alt="Lynn's Robot GIF" style="width: 100%;">
@@ -265,7 +303,7 @@
               
               <input type="number" id="eviPrice" placeholder="Hoeveel kost het?">
               <button id="eviBuyBtn" class="btn btn-primary">Check of je dit kunt kopen</button>
-              <div id="eviResult"></div>
+              <div id="eviResult" class="result-message"></div>
             </div>
             <div class="col-md-6">
               <img src="https://media2.giphy.com/media/S3oAaB2MAr7Th7Lczr/giphy.gif" alt="Evi's Unicorn GIF" style="width: 100%;">
