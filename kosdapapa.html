@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Lynn and Evi's Piggy Bank</title>
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -50,6 +51,8 @@
           cursor: pointer;
           transition: background-color 0.3s;
           border-radius: 20px; /* Rounded border for buttons */
+          border: 2px solid #FFD700; /* Add a 2px solid border with bright yellow color */
+          border-radius: 5px; /* Rounded border */
         }
 
         button:hover {
@@ -85,18 +88,65 @@
         }
       
         .btn-primary {
-          background-color: #f76c6c;
-          color: #fff;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+        background-color: #f76c6c;
+        color: #ffffff;
+        font-size: 18px;
+        padding: 10px 20px;
+        border: none;
+        padding: 10px 20px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        border-radius: 20px; /* Rounded border for buttons */
+        border: 2px solid #f76c6c; /* Add a 2px solid border with bright yellow color */
+        box-shadow: none; /* Remove the default button box shadow */
+      }
+
+      .btn-primary:hover {
+        background-color: #ff0000; /* Lighter shade of yellow on hover */
+      }
+
+      .btn-primary:hover {
+        border-color: #ff1b1b; /* Specify the desired bright hue color */
+      }
+
+      .btn-primary:focus,
+      .btn-primary:focus-visible,
+      .btn-primary:active
+      {
+        background-color: #f76c6c; /* Use the desired button background color on focus, active, and hover */
+        outline: none; /* Remove the default button focus outline */
+        box-shadow: none; /* Remove the default button box shadow */
+       
+        color: #ffffff;
+      }
+
+      .btn-alternative {
+        font-family: 'Comic Sans MS', cursive, sans-serif;
           font-size: 18px;
-          padding: 10px 20px;
+          background-color: #0051ff; /* Bright and light yellow color for buttons */
           border: none;
+          color: #ffffff;
+          padding: 10px 20px;
+          margin: 0 5px;
           cursor: pointer;
           transition: background-color 0.3s;
-        }
-      
-        .btn-primary:hover {
-          background-color: #e45b5b;
-        }
+          border-radius: 20px; /* Rounded border for buttons */
+          border: 2px solid #0051ff; /* Add a 2px solid border with bright yellow color */
+          border-radius: 5px; /* Rounded border */
+      }
+
+      .btn-alternative:hover {
+        background-color: #9ea8ff; /* Lighter shade of yellow on hover */
+        color: #ffffff;
+      }
+
+      .btn-alternative:active, 
+      .btn-alternative:focus {
+        color: #ffffff;
+      }
+
       
         #lynnSection .savings-fill {
         background-color: #ff0000; /* Bright, vibrant red for Lynn */
@@ -145,13 +195,14 @@
 
     .result-message.success {
       background-color: #7FFF7F; /* Green background color for success message */
-      color: #fff;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Add a slight shadow effect */
+      color: #ffffff;
+      text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3); /* Add a slight shadow effect */
     }
 
     .result-message.failure {
       background-color: #FF7F7F; /* Red background color for failure message */
       color: #fff;
+      text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3); /* Add a slight shadow effect */
     }
 
     p.savings-text {
@@ -287,7 +338,7 @@
               </div>
                         
               <input type="number" id="lynnPrice" placeholder="Hoeveel kost het?">
-              <button id="lynnBuyBtn" class="btn btn-primary">Check of je dit kunt kopen</button>
+              <button id="lynnBuyBtn" class="btn btn-alternative">Check of je dit kunt kopen</button>
               <div id="lynnResult" class="result-message"></div>
             </div>
             <div class="col-md-6">
@@ -309,7 +360,7 @@
               </div>
               
               <input type="number" id="eviPrice" placeholder="Hoeveel kost het?">
-              <button id="eviBuyBtn" class="btn btn-primary">Check of je dit kunt kopen</button>
+              <button id="eviBuyBtn" class="btn btn-alternative">Check of je dit kunt kopen</button>
               <div id="eviResult" class="result-message"></div>
             </div>
             <div class="col-md-6">

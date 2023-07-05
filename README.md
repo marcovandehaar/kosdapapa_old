@@ -14,3 +14,9 @@ Failed:
 1. https://chat.openai.com/share/6124ee18-165a-4605-8320-84dddb42e853
    1. Github access and dynamic site
    2. CGPT was unable to access, dynamic site without framework got too complex.
+
+
+TODO
+1. buttons to add pocket money to savings - 
+2. dynamic site with NG?
+5. cool moving background?
