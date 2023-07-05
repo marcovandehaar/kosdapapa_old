@@ -32,6 +32,28 @@
       /* Light shade of blue for Evi */
     }
 
+    .toggle-panel {
+      background-color: #FFD700;
+      color: #333;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .toggle-panel:hover {
+      background-color: #FFEC8B;
+    }
+
+    .edit-panel {
+      display: none;
+      padding: 20px;
+    }
+
+
     .container {
       background-color: inherit;
       /* Use the background color of the parent section */
@@ -185,6 +207,7 @@
       display: flex;
       height: 50px;
       margin-bottom: 10px;
+      margin-top: 10px;
       border-radius: 10px;
       overflow: hidden;
       /* Ensure rounded corners are visible */
@@ -244,11 +267,118 @@
       margin-bottom: 10px;
       color: #333333;
     }
+
+    .buttons-row {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .buttons-row-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin-top: 10px;
+    }
+
+    .buttons-row-item button {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
   </style>
 
 
   <script>
     $(document).ready(function () {
+      // Toggle edit panel visibility
+      $("#toggleLynnPanel").click(function () {
+        $("#lynnPanel").slideToggle();
+      });
+
+      $("#toggleEviPanel").click(function () {
+        $("#eviPanel").slideToggle();
+      });
+
+      // Add/Remove amounts
+      function updateSavingsAmountLynn(amount) {
+        var currentSavings = parseFloat($("#lynnSavings").val());
+        var newSavings = currentSavings + amount;
+        $("#lynnSavings").val(newSavings.toFixed(2));
+        updateSavingsBar("#lynnSavings", ".savings-bar", "#ff0000", 0);
+      }
+
+      $("#add50").click(function () {
+        updateSavingsAmountLynn(0.50);
+      });
+
+      $("#add100").click(function () {
+        updateSavingsAmountLynn(1.00);
+      });
+
+      $("#add500").click(function () {
+        updateSavingsAmountLynn(5.00);
+      });
+
+      $("#add1000").click(function () {
+        updateSavingsAmountLynn(10.00);
+      });
+
+      $("#remove50").click(function () {
+        updateSavingsAmountLynn(-0.50);
+      });
+
+      $("#remove100").click(function () {
+        updateSavingsAmountLynn(-1.00);
+      });
+
+      $("#remove500").click(function () {
+        updateSavingsAmountLynn(-5.00);
+      });
+
+      $("#remove1000").click(function () {
+        updateSavingsAmountLynn(-10.00);
+      });
+
+      // Add/Remove amounts for Evi
+      function updateSavingsAmountEvi(amount) {
+        var currentSavings = parseFloat($("#eviSavings").val());
+        var newSavings = currentSavings + amount;
+        $("#eviSavings").val(newSavings.toFixed(2));
+        updateSavingsBar("#eviSavings", ".savings-bar", "#0000ff", 0);
+      }
+
+      $("#add50Evi").click(function () {
+        updateSavingsAmountEvi(0.50);
+      });
+
+      $("#add100Evi").click(function () {
+        updateSavingsAmountEvi(1.00);
+      });
+
+      $("#add500Evi").click(function () {
+        updateSavingsAmountEvi(5.00);
+      });
+
+      $("#add1000Evi").click(function () {
+        updateSavingsAmountEvi(10.00);
+      });
+
+      $("#remove50Evi").click(function () {
+        updateSavingsAmountEvi(-0.50);
+      });
+
+      $("#remove100Evi").click(function () {
+        updateSavingsAmountEvi(-1.00);
+      });
+
+      $("#remove500Evi").click(function () {
+        updateSavingsAmountEvi(-5.00);
+      });
+
+      $("#remove1000Evi").click(function () {
+        updateSavingsAmountEvi(-10.00);
+      });
+
+
       // Function to update savings bar
       function updateSavingsBar(savingsInput, savingsBar, color, price = 0, canAfford = true) {
         var savings = parseInt($(savingsInput).val());
@@ -359,20 +489,46 @@
 
 
   <main>
-    <section id="lynnSection" style="display: none;">
-      <h2>Lynn</h2>
+    <div id="lynnSection" class="section" style="display: none;">
+      <header>
+        <h2>Lynn's Spaarpot</h2>
+
+      </header>
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <p class="savings-text">Spaargeld: <input type="number" id="lynnSavings" value="0"></p>
-            <div class="savings-bar" id="lynnSavingsBar" style="background-color: blue;">
-              <div class="savings-fill"></div>
-              <div class="savings-remainder"></div>
-            </div>
-
-            <input type="number" id="lynnPrice" placeholder="Hoeveel kost het?">
-            <button id="lynnBuyBtn" class="btn btn-alternative">Check of je dit kunt kopen</button>
-            <div id="lynnResult" class="result-message"></div>
+            <main>
+              <div class="savings-info">
+                <h4>Spaargeld:</h4>
+                <input type="text" id="lynnSavings" readonly>
+                <button id="toggleLynnPanel" class="toggle-panel">+-</button>
+              </div>
+              <div id="lynnPanel" class="edit-panel">
+                <input type="number" id="lynnEditSavings" step="0.01">
+                <div class="buttons-row">
+                  <div class="buttons-row-item">
+                    <button id="add50">+€0.50</button>
+                    <button id="add100">+€1.00</button>
+                    <button id="add500">+€5.00</button>
+                    <button id="add1000">+€10.00</button>
+                  </div>
+                  <div class="buttons-row-item">
+                    <button id="remove50">-€0.50</button>
+                    <button id="remove100">-€1.00</button>
+                    <button id="remove500">-€5.00</button>
+                    <button id="remove1000">-€10.00</button>
+                  </div>
+                </div>
+              </div>
+              <div class="savings-bar" id="lynnSavingsBar" style="background-color: blue;">
+                <div class="savings-fill"></div>
+                <div class="savings-remainder"></div>
+              </div>
+              <h4>Price:</h4>
+              <input type="number" id="lynnPrice" step="0.01" placeholder="Hoeveel kost het?">
+              <button id="lynnBuyBtn" class="btn-primary">Check of je dit kunt kopen</button>
+              <div id="lynnResult" class="result-message"></div>
+            </main>
           </div>
           <div class="col-md-6">
             <img
@@ -381,22 +537,48 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section id="eviSection" style="display: none;">
-      <h2>Evi</h2>
+    <div id="eviSection" class="section" style="display: none;">
+      <header>
+        <h2>Lynn's Spaarpot</h2>
+
+      </header>
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <p class="savings-text">Spaargeld: <input type="number" id="eviSavings" value="0"></p>
-            <div class="savings-bar" id="eviSavingsBar" style="background-color: blue;">
-              <div class="savings-fill"></div>
-              <div class="savings-remainder"></div>
-            </div>
-
-            <input type="number" id="eviPrice" placeholder="Hoeveel kost het?">
-            <button id="eviBuyBtn" class="btn btn-alternative">Check of je dit kunt kopen</button>
-            <div id="eviResult" class="result-message"></div>
+            <main>
+              <div class="savings-info">
+                <h4>Spaargeld:</h4>
+                <input type="text" id="eviSavings" readonly>
+                <button id="toggleEviPanel" class="toggle-panel">+-</button>
+              </div>
+              <div id="eviPanel" class="edit-panel">
+                <input type="number" id="eviEditSavings" step="0.01">
+                <div class="buttons-row">
+                  <div class="buttons-row-item">
+                    <button id="add50Evi">+€0.50</button>
+                    <button id="add100Evi">+€1.00</button>
+                    <button id="add500Evi">+€5.00</button>
+                    <button id="add1000Evi">+€10.00</button>
+                  </div>
+                  <div class="buttons-row-item">
+                    <button id="remove50Evi">-€0.50</button>
+                    <button id="remove100Evi">-€1.00</button>
+                    <button id="remove500Evi">-€5.00</button>
+                    <button id="remove1000Evi">-€10.00</button>
+                  </div>
+                </div>
+              </div>
+              <div class="savings-bar" id="eviSavingsBar" style="background-color: blue;">
+                <div class="savings-fill"></div>
+                <div class="savings-remainder"></div>
+              </div>
+              <h4>Price:</h4>
+              <input type="number" id="eviPrice" step="0.01" placeholder="Hoeveel kost het?">
+              <button id="eviBuyBtn" class="btn-primary">Check of je dit kunt kopen</button>
+              <div id="eviResult" class="result-message"></div>
+            </main>
           </div>
           <div class="col-md-6">
             <img src="https://media2.giphy.com/media/S3oAaB2MAr7Th7Lczr/giphy.gif" alt="Evi's Unicorn GIF"
@@ -404,7 +586,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
 
   </main>
