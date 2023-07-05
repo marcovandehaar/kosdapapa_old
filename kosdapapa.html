@@ -109,7 +109,8 @@
     }
 
 
-    input[type="number"] {
+    input[type="number"],
+    input[type="text"] {
       font-family: 'Comic Sans MS', cursive, sans-serif;
       font-size: 16px;
       padding: 10px;
@@ -298,11 +299,13 @@
         $("#eviPanel").slideToggle();
       });
 
+
       // Add/Remove amounts
       function updateSavingsAmountLynn(amount) {
         var currentSavings = parseFloat($("#lynnSavings").val());
         var newSavings = currentSavings + amount;
         $("#lynnSavings").val(newSavings.toFixed(2));
+        $("#lynnEditSavings").val(newSavings.toFixed(2));
         updateSavingsBar("#lynnSavings", ".savings-bar", "#ff0000", 0);
       }
 
@@ -343,6 +346,7 @@
         var currentSavings = parseFloat($("#eviSavings").val());
         var newSavings = currentSavings + amount;
         $("#eviSavings").val(newSavings.toFixed(2));
+        $("#eviEditSavings").val(newSavings.toFixed(2));
         updateSavingsBar("#eviSavings", ".savings-bar", "#0000ff", 0);
       }
 
@@ -467,6 +471,27 @@
       $("#eviSavings").val(eviSavings);
       $("#lynnPrice").val(""); // Set the price item text field to empty
       $("#eviPrice").val(""); // Set the price item text field to empty
+
+
+      // Set initial value for Lynn's savings input
+      var lynnSavingsValue = parseFloat($("#lynnSavings").val());
+      $("#lynnEditSavings").val(lynnSavingsValue.toFixed(2));
+
+      // Set initial value for Evi's savings input
+      var eviSavingsValue = parseFloat($("#eviSavings").val());
+      $("#eviEditSavings").val(eviSavingsValue.toFixed(2));
+
+      // Update Lynn's savings amount
+      $("#lynnEditSavings").on("input", function () {
+        var lynnEditSavingsValue = parseFloat($(this).val());
+        $("#lynnSavings").val(lynnEditSavingsValue.toFixed(2));
+      });
+
+      // Update Evi's savings amount
+      $("#eviEditSavings").on("input", function () {
+        var eviEditSavingsValue = parseFloat($(this).val());
+        $("#eviSavings").val(eviEditSavingsValue.toFixed(2));
+      });
 
       // Update savings bar on page load
       updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#ff0000", 0, true); // Bright, vibrant red for Lynn
