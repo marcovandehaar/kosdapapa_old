@@ -32,6 +32,10 @@
       /* Light shade of blue for Evi */
     }
 
+    .child-section {
+      border-radius: 10px; /* Adjust the value as per your preference */
+    }
+
     .container {
       background-color: inherit;
       /* Use the background color of the parent section */
@@ -87,15 +91,19 @@
     }
 
 
-    input[type="number"] {
+    .input-number {
       font-family: 'Comic Sans MS', cursive, sans-serif;
       font-size: 16px;
       padding: 10px;
-      width: 100%;
+      
       border: 1px solid #ccc;
       border-radius: 5px;
       margin-bottom: 10px;
       box-sizing: border-box;
+    }
+
+    .input-price{
+      width: 100%;
     }
 
     .btn-primary {
@@ -185,6 +193,7 @@
       display: flex;
       height: 50px;
       margin-bottom: 10px;
+      margin-top: 10px;
       border-radius: 10px;
       overflow: hidden;
       /* Ensure rounded corners are visible */
@@ -238,11 +247,27 @@
       /* Add a slight shadow effect */
     }
 
-    p.savings-text {
+    span.savings-text {
       font-size: 18px;
       font-weight: bold;
       margin-bottom: 10px;
       color: #333333;
+      width: 33%;
+    }
+
+    .savings-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .savings-input {
+      width: 33%; /* Adjust the width as per your preference */
+
+      margin-right: 10px;
+    }
+
+    .add-pocket-money-btn{
+      width: 33%;
     }
   </style>
 
@@ -359,18 +384,23 @@
 
 
   <main>
-    <section id="lynnSection" style="display: none;">
+    <section id="lynnSection" style="display: none;" class="child-section">
       <h2>Lynn</h2>
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <p class="savings-text">Spaargeld: <input type="number" id="lynnSavings" value="0"></p>
+            <div class="savings-container">
+              <span class="savings-text">Spaargeld: </span>
+              <input type="number" id="lynnSavings" value="0" class="input-number savings-input">
+              <button id="lynnPocketMoneybtn" class="add-pocket-money-btn">Spaar zakgeld!</button>
+            </div>
+            
             <div class="savings-bar" id="lynnSavingsBar" style="background-color: blue;">
               <div class="savings-fill"></div>
               <div class="savings-remainder"></div>
             </div>
 
-            <input type="number" id="lynnPrice" placeholder="Hoeveel kost het?">
+            <input type="number" id="lynnPrice" placeholder="Hoeveel kost het?" class="input-number input-price">
             <button id="lynnBuyBtn" class="btn btn-alternative">Check of je dit kunt kopen</button>
             <div id="lynnResult" class="result-message"></div>
           </div>
@@ -383,18 +413,23 @@
       </div>
     </section>
 
-    <section id="eviSection" style="display: none;">
+    <section id="eviSection" style="display: none;" class="child-section">
       <h2>Evi</h2>
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <p class="savings-text">Spaargeld: <input type="number" id="eviSavings" value="0"></p>
+            <div class="savings-container">
+              <span class="savings-text">Spaargeld: </span>
+              <input type="number" id="eviSavings" value="0" class="input-number savings-input">
+              <button id="eviPocketMoneybtn" class="add-pocket-money-btn">Spaar zakgeld!</button>
+            </div>
+
             <div class="savings-bar" id="eviSavingsBar" style="background-color: blue;">
               <div class="savings-fill"></div>
               <div class="savings-remainder"></div>
             </div>
 
-            <input type="number" id="eviPrice" placeholder="Hoeveel kost het?">
+            <input type="number" id="eviPrice" placeholder="Hoeveel kost het?" class="input-number input-price">
             <button id="eviBuyBtn" class="btn btn-alternative">Check of je dit kunt kopen</button>
             <div id="eviResult" class="result-message"></div>
           </div>
