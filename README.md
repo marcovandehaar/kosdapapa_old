@@ -9,6 +9,7 @@ See ChatGPT threads:
 1. https://chat.openai.com/share/6c12e654-44b4-4734-859e-6759f7276f17 
 2. https://chat.openai.com/share/3fda0cc7-7210-4fff-aec7-08f2d684a93a
 3. https://chat.openai.com/share/4c999005-26f6-4bc6-ad57-14bf2816cf3d
+4. https://chat.openai.com/share/cc125b12-a4c7-40b0-90fb-5c23504e1449
 
 Failed:
 1. https://chat.openai.com/share/6124ee18-165a-4605-8320-84dddb42e853
@@ -17,6 +18,5 @@ Failed:
 
 
 TODO
-1. buttons to add pocket money to savings - 
-2. dynamic site with NG?
-5. cool moving background?
+1. dynamic site with NG?
+
