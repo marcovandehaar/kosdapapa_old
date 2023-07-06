@@ -11,7 +11,7 @@
   <style>
     body {
       font-family: 'Comic Sans MS', cursive, sans-serif;
-      background-color: #f2f2f2;
+      background-color: #e4fee7;
       /* Default light grey background color */
       margin: 0;
       padding: 0;
@@ -23,7 +23,7 @@
     }
 
     #lynnSection {
-      background-color: #FFE5CC;
+      background-color: #ebcbff;
       /* Light shade of orange for Lynn */
     }
 
@@ -58,18 +58,13 @@
     }
 
 
-    .container {
-      background-color: inherit;
-      /* Use the background color of the parent section */
-      padding: 20px;
-      border-radius: 5px;
-    }
-
     header {
-      background-color: #f8f8f8;
-      /* Update the background color of the header */
+      background-color: #caf2fc;
+      /* Update the background color of the header with a light color */
       padding: 10px;
       text-align: center;
+      border-radius: 10px;
+      /* Add rounded corners to the top of the header */
     }
 
     button {
@@ -105,11 +100,17 @@
       font-size: 28px;
       color: #333;
       margin-bottom: 20px;
+      padding: 40px;
     }
 
     h4 {
       font-size: 18px;
       color: #333;
+    }
+
+    .section {
+      border-radius: 10px;
+      /* Add rounded corners to the section */
     }
 
 
@@ -167,37 +168,6 @@
       color: #ffffff;
     }
 
-    .btn-alternative {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      font-size: 18px;
-      background-color: #0051ff;
-      /* Bright and light yellow color for buttons */
-      border: none;
-      color: #ffffff;
-      padding: 10px 20px;
-      margin: 0 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      border-radius: 20px;
-      /* Rounded border for buttons */
-      border: 2px solid #0051ff;
-      /* Add a 2px solid border with bright yellow color */
-      border-radius: 5px;
-      /* Rounded border */
-    }
-
-    .btn-alternative:hover {
-      background-color: #9ea8ff;
-      /* Lighter shade of yellow on hover */
-      color: #ffffff;
-    }
-
-    .btn-alternative:active,
-    .btn-alternative:focus {
-      color: #ffffff;
-    }
-
-
     #lynnSection .savings-fill {
       background-color: #ff0000;
       /* Bright, vibrant red for Lynn */
@@ -234,14 +204,6 @@
       transition: width 0.3s ease-in-out;
     }
 
-    .header-text {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      font-size: 20px;
-      color: #ba43b4;
-      /* Vivid color for the header text */
-      margin-bottom: 10px;
-    }
-
     .result-message {
       font-family: 'Comic Sans MS', cursive, sans-serif;
       font-size: 18px;
@@ -266,13 +228,6 @@
       /* Add a slight shadow effect */
     }
 
-    p.savings-text {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #333333;
-    }
-
     .buttons-row {
       display: flex;
       flex-direction: column;
@@ -289,6 +244,17 @@
       margin-right: 10px;
       margin-bottom: 10px;
     }
+    .savingsdetail 
+        {
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      /* Add rounded corners to the main section */
+    }
+
+
+
+
   </style>
 
 
@@ -389,23 +355,25 @@
 
       // Function to update savings bar
       function updateSavingsBar(savingsInput, savingsBar, color, price = 0, canAfford = true) {
-        var savings = parseInt($(savingsInput).val());
-        var difference = savings - price;
-        var fillPercentage = (price / savings) * 100;
-        var remainderPercentage = (savings - price) / savings * 100;
+        
+        if(price){
+          var savings = parseInt($(savingsInput).val());
+          var difference = savings - price;
+          var fillPercentage = (price / savings) * 100;
+          var remainderPercentage = (savings - price) / savings * 100;
 
-        console.log("Spaargeld:" + savings);
-        console.log("price:" + price);
-        console.log("percentage:" + fillPercentage);
-        console.log($(savingsBar).find(".savings-fill"));
+          //console.log("Spaargeld:" + savings);
+          //console.log("price:" + price);
+          //console.log("percentage:" + fillPercentage);
+          //console.log($(savingsBar).find(".savings-fill"));
+          $(savingsBar).find(".savings-fill").css({
+            "width": `${fillPercentage}%`
+          });
 
-        $(savingsBar).find(".savings-fill").css({
-          "width": `${fillPercentage}%`
-        });
-
-        $(savingsBar).find(".savings-remainder").css({
-          "width": `${remainderPercentage}%`
-        });
+          $(savingsBar).find(".savings-remainder").css({
+            "width": `${remainderPercentage}%`
+          });
+      }
       }
 
 
@@ -421,13 +389,16 @@
 
         // Check affordability and update savings bar
         var canAfford = savings >= price;
-        updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#f76c6c", price, canAfford);
+        if(price)
+        {
+          updateSavingsBar("#lynnSavings", "#lynnSavingsBar", "#f76c6c", price, canAfford);
 
-        // Display affordability result
-        if (canAfford) {
-          $("#lynnResult").removeClass("failure").addClass("success").text("Je kunt dit kopen! Dan heb je nog €" + (savings - price) + " over in je spaarpot.");
-        } else {
-          $("#lynnResult").removeClass("success").addClass("failure").text("Je kunt dit helaas niet kopen. Je hebt niet genoeg spaargeld.");
+          // Display affordability result
+          if (canAfford) {
+            $("#lynnResult").removeClass("failure").addClass("success").text("Je kunt dit kopen! Dan heb je nog €" + (savings - price) + " over in je spaarpot.");
+          } else {
+            $("#lynnResult").removeClass("success").addClass("failure").text("Je kunt dit helaas niet kopen. Je hebt niet genoeg spaargeld.");
+          }
         }
 
         // Store updated savings value in local storage
@@ -443,16 +414,19 @@
       $("#eviBuyBtn").click(function () {
         var savings = parseInt($("#eviSavings").val());
         var price = parseInt($("#eviPrice").val());
+        
+        if(price)
+        {
+          // Check affordability and update savings bar
+          var canAfford = savings >= price;
+          updateSavingsBar("#eviSavings", "#eviSavingsBar", "#1f78b4", price, canAfford);
 
-        // Check affordability and update savings bar
-        var canAfford = savings >= price;
-        updateSavingsBar("#eviSavings", "#eviSavingsBar", "#1f78b4", price, canAfford);
-
-        // Display affordability result
-        if (canAfford) {
-          $("#eviResult").removeClass("failure").addClass("success").text("Je kunt dit kopen! Dan heb je nog €" + (savings - price) + " over in je spaarpot.");
-        } else {
-          $("#eviResult").removeClass("success").addClass("failure").text("Je kunt dit helaas niet kopen. Je hebt niet genoeg spaargeld.");
+          // Display affordability result
+          if (canAfford) {
+            $("#eviResult").removeClass("failure").addClass("success").text("Je kunt dit kopen! Dan heb je nog €" + (savings - price) + " over in je spaarpot.");
+          } else {
+            $("#eviResult").removeClass("success").addClass("failure").text("Je kunt dit helaas niet kopen. Je hebt niet genoeg spaargeld.");
+          }
         }
 
         // Store updated savings value in local storage
@@ -510,27 +484,28 @@
 </head>
 
 <body>
-  <header>
-    <h4 class="header-text">Voor wie wil je de spaarpot zien?</h4>
-    <button id="lynnButton">Lynn</button>
-    <button id="eviButton">Evi</button>
-  </header>
+  
 
 
   <main>
+    <header>
+      <h4 class="header-text">Voor wie wil je de spaarpot zien?</h4>
+      <button id="lynnButton">Lynn</button>
+      <button id="eviButton">Evi</button>
+    </header>
     <div id="lynnSection" class="section" style="display: none;">
-      <header>
+      <div>
         <h2>Lynn's Spaarpot</h2>
 
-      </header>
+      </div>
       <div class="container">
-        <div class="row">
+        <div class="row savingsdetail">
           <div class="col-md-6">
             <main>
               <div class="savings-info">
                 <h4>Spaargeld:</h4>
                 <input type="text" id="lynnSavings" readonly>
-                <button id="toggleLynnPanel" class="toggle-panel">💰</button>
+                <button id="toggleLynnPanel" class="toggle-panel" title="Geld in of uit je spaarpot doen">💰</button>
               </div>
               <div id="lynnPanel" class="edit-panel">
                 <input type="number" id="lynnEditSavings" step="0.01">
@@ -569,12 +544,12 @@
     </div>
 
     <div id="eviSection" class="section" style="display: none;">
-      <header>
-        <h2>Lynn's Spaarpot</h2>
+      <div>
+        <h2>Evi's Spaarpot</h2>
 
-      </header>
+      </div>
       <div class="container">
-        <div class="row">
+        <div class="row savingsdetail">
           <div class="col-md-6">
             <main>
               <div class="savings-info">
