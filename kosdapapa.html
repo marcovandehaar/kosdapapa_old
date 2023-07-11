@@ -5,6 +5,7 @@
   <title>Lynn and Evi's Piggy Bank</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -47,17 +48,17 @@
 
     .toggle-panel {
       background-color: #FFD700;
-      color: #333;
+      color: #b97a00;;
       font-size: 32px;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       border: none;
       cursor: pointer;
       transition: background-color 0.3s;
       padding-top: 0px;
-      padding-bottom: 0px;
-      padding-left: 4px;
+      padding-bottom: 2px;
+      padding-left: 8px;
       text-align: center;
     }
 
@@ -290,6 +291,7 @@
         $("#lynnSavings").val(newSavings.toFixed(2));
         $("#lynnEditSavings").val(newSavings.toFixed(2));
         updateSavingsBar("#lynnSavings", ".savings-bar", "#ff0000", 0);
+        localStorage.setItem("lynnSavings", newSavings);
       }
 
       $("#add50").click(function () {
@@ -331,6 +333,7 @@
         $("#eviSavings").val(newSavings.toFixed(2));
         $("#eviEditSavings").val(newSavings.toFixed(2));
         updateSavingsBar("#eviSavings", ".savings-bar", "#0000ff", 0);
+        localStorage.setItem("eviSavings", newSavings);
       }
 
       $("#add50Evi").click(function () {
@@ -518,7 +521,8 @@
               <div class="savings-info">
                 <h4>Spaargeld:</h4>
                 <input type="text" id="lynnSavings" readonly>
-                <button id="toggleLynnPanel" class="toggle-panel" title="Geld in of uit je spaarpot doen">💰</button>
+                <button id="toggleLynnPanel" class="toggle-panel" title="Geld in of uit je spaarpot doen"><i class="fas fa-piggy-bank"></i></button>
+
               </div>
               <div id="lynnPanel" class="edit-panel">
                 <input type="number" id="lynnEditSavings" step="0.01">
@@ -568,7 +572,7 @@
               <div class="savings-info">
                 <h4>Spaargeld:</h4>
                 <input type="text" id="eviSavings" readonly>
-                <button id="toggleEviPanel" class="toggle-panel">💰</button>
+                <button id="toggleEviPanel" class="toggle-panel" title="Geld in of uit je spaarpot doen"><i class="fas fa-piggy-bank"></i></button>
               </div>
               <div id="eviPanel" class="edit-panel">
                 <input type="number" id="eviEditSavings" step="0.01">
