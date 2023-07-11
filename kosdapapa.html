@@ -267,7 +267,20 @@
     }
 
 
+    .mutationFeedback {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 5px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
+    .mutationFeedback p {
+      margin: 0;
+      padding: 5px 0;
+      font-size: 16px;
+      color: #333;
+    }
 
   </style>
 
@@ -283,90 +296,59 @@
         $("#eviPanel").slideToggle();
       });
 
+      // Mutation history
+      var mutationHistory = [];
 
       // Add/Remove amounts
-      function updateSavingsAmountLynn(amount) {
-        var currentSavings = parseFloat($("#lynnSavings").val());
+      function updateSavingsAmount(section, amount) {
+        var savingsInput = $(section + "Savings");
+        var editSavingsInput = $(section + "EditSavings");
+        var currentSavings = parseFloat($(section+"Savings").val());
         var newSavings = currentSavings + amount;
-        $("#lynnSavings").val(newSavings.toFixed(2));
-        $("#lynnEditSavings").val(newSavings.toFixed(2));
-        updateSavingsBar("#lynnSavings", ".savings-bar", "#ff0000", 0);
-        localStorage.setItem("lynnSavings", newSavings);
+        
+        var mutationText = currentSavings.toFixed(2) + " " + (amount > 0 ? "+" : "-") + " " + Math.abs(amount).toFixed(2) + " = " + newSavings.toFixed(2);
+
+        console.log(mutationText);
+        console.log(mutationHistory);
+
+        savingsInput.val(newSavings.toFixed(2));
+        editSavingsInput.val(newSavings.toFixed(2));
+
+        // Add mutation to history
+        mutationHistory.unshift(mutationText);
+
+          // Limit history to 3 mutations
+        if (mutationHistory.length > 3) {
+          mutationHistory.pop();
+        }
+
+        // Update feedback element
+        var feedbackElement = $(section+"MutationFeedback");
+
+        console.log(feedbackElement);
+
+        feedbackElement.html("");
+        for (var i = 0; i < mutationHistory.length; i++) {
+          feedbackElement.append("<p>" + mutationHistory[i] + "</p>");
+        }
+        
+
+        updateSavingsBar("#"+section+"Savings", ".savings-bar", "#ff0000", 0);
+        localStorage.setItem("#"+section+"Savings", newSavings);
       }
 
-      $("#add50").click(function () {
-        updateSavingsAmountLynn(0.50);
+      // Handle mutation button clicks for Lynn
+      $(".lynn-mutation-button").click(function () {
+        var amount = parseFloat($(this).data("amount"));
+        updateSavingsAmount("#lynn", amount);
       });
 
-      $("#add100").click(function () {
-        updateSavingsAmountLynn(1.00);
+      // Handle mutation button clicks for Evi
+      $(".evi-mutation-button").click(function () {
+        var amount = parseFloat($(this).data("amount"));
+        updateSavingsAmount("#evi", amount);
       });
-
-      $("#add500").click(function () {
-        updateSavingsAmountLynn(5.00);
-      });
-
-      $("#add1000").click(function () {
-        updateSavingsAmountLynn(10.00);
-      });
-
-      $("#remove50").click(function () {
-        updateSavingsAmountLynn(-0.50);
-      });
-
-      $("#remove100").click(function () {
-        updateSavingsAmountLynn(-1.00);
-      });
-
-      $("#remove500").click(function () {
-        updateSavingsAmountLynn(-5.00);
-      });
-
-      $("#remove1000").click(function () {
-        updateSavingsAmountLynn(-10.00);
-      });
-
-      // Add/Remove amounts for Evi
-      function updateSavingsAmountEvi(amount) {
-        var currentSavings = parseFloat($("#eviSavings").val());
-        var newSavings = currentSavings + amount;
-        $("#eviSavings").val(newSavings.toFixed(2));
-        $("#eviEditSavings").val(newSavings.toFixed(2));
-        updateSavingsBar("#eviSavings", ".savings-bar", "#0000ff", 0);
-        localStorage.setItem("eviSavings", newSavings);
-      }
-
-      $("#add50Evi").click(function () {
-        updateSavingsAmountEvi(0.50);
-      });
-
-      $("#add100Evi").click(function () {
-        updateSavingsAmountEvi(1.00);
-      });
-
-      $("#add500Evi").click(function () {
-        updateSavingsAmountEvi(5.00);
-      });
-
-      $("#add1000Evi").click(function () {
-        updateSavingsAmountEvi(10.00);
-      });
-
-      $("#remove50Evi").click(function () {
-        updateSavingsAmountEvi(-0.50);
-      });
-
-      $("#remove100Evi").click(function () {
-        updateSavingsAmountEvi(-1.00);
-      });
-
-      $("#remove500Evi").click(function () {
-        updateSavingsAmountEvi(-5.00);
-      });
-
-      $("#remove1000Evi").click(function () {
-        updateSavingsAmountEvi(-10.00);
-      });
+      
 
 
       // Function to update savings bar
@@ -528,17 +510,18 @@
                 <input type="number" id="lynnEditSavings" step="0.01">
                 <div class="buttons-row">
                   <div class="buttons-row-item">
-                    <button id="add50">+€0.50</button>
-                    <button id="add100">+€1.00</button>
-                    <button id="add500">+€5.00</button>
-                    <button id="add1000">+€10.00</button>
+                    <button class="lynn-mutation-button" data-amount="0.50">+€0.50</button>
+                    <button class="lynn-mutation-button" data-amount="1.00">+€1.00</button>
+                    <button class="lynn-mutation-button" data-amount="5.00">+€5.00</button>
+                    <button class="lynn-mutation-button" data-amount="10.00">+€10.00</button>
                   </div>
                   <div class="buttons-row-item">
-                    <button id="remove50">-€0.50</button>
-                    <button id="remove100">-€1.00</button>
-                    <button id="remove500">-€5.00</button>
-                    <button id="remove1000">-€10.00</button>
+                    <button class="lynn-mutation-button" data-amount="-0.50">-€0.50</button>
+                    <button class="lynn-mutation-button" data-amount="-1.00">-€1.00</button>
+                    <button class="lynn-mutation-button" data-amount="-5.00">-€5.00</button>
+                    <button class="lynn-mutation-button" data-amount="-10.00">-€10.00</button>
                   </div>
+                  <div id="lynnMutationFeedback" class="mutationFeedback"></div>
                 </div>
               </div>
               <div class="savings-bar" id="lynnSavingsBar" style="background-color: blue;">
@@ -578,17 +561,18 @@
                 <input type="number" id="eviEditSavings" step="0.01">
                 <div class="buttons-row">
                   <div class="buttons-row-item">
-                    <button id="add50Evi">+€0.50</button>
-                    <button id="add100Evi">+€1.00</button>
-                    <button id="add500Evi">+€5.00</button>
-                    <button id="add1000Evi">+€10.00</button>
+                    <button class="evi-mutation-button" data-amount="0.50">+€0.50</button>
+                    <button class="evi-mutation-button" data-amount="1.00">+€1.00</button>
+                    <button class="evi-mutation-button" data-amount="5.00">+€5.00</button>
+                    <button class="evi-mutation-button" data-amount="10.00">+€10.00</button>
                   </div>
                   <div class="buttons-row-item">
-                    <button id="remove50Evi">-€0.50</button>
-                    <button id="remove100Evi">-€1.00</button>
-                    <button id="remove500Evi">-€5.00</button>
-                    <button id="remove1000Evi">-€10.00</button>
+                    <button class="evi-mutation-button" data-amount="-0.50">-€0.50</button>
+                    <button class="evi-mutation-button" data-amount="-1.00">-€1.00</button>
+                    <button class="evi-mutation-button" data-amount="-5.00">-€5.00</button>
+                    <button class="evi-mutation-button" data-amount="-10.00">-€10.00</button>
                   </div>
+                  <div id="eviMutationFeedback" class="mutationFeedback"></div>
                 </div>
               </div>
               <div class="savings-bar" id="eviSavingsBar" style="background-color: blue;">
